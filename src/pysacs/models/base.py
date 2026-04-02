@@ -9,7 +9,7 @@ class MaterialModel(ABC):
     def stress(self, strain): ...
 
 
-@dataclass
+@dataclass(slots=True)
 class UserModel(MaterialModel):
     strains: list | np.ndarray
     stresses: list | np.ndarray

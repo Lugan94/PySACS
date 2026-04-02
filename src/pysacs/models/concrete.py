@@ -3,7 +3,7 @@ import numpy as np
 from .base import MaterialModel
 
 
-@dataclass
+@dataclass(slots=True)
 class Hognestad(MaterialModel):
     fpc: float
     Ec: float
@@ -41,7 +41,7 @@ class Hognestad(MaterialModel):
         stress = np.piecewise(ec,condlist,funclist)
         return stress
     
-@dataclass
+@dataclass(slots=True)
 class ManderConcrete(MaterialModel):
     fpcc: float
     ecc: float

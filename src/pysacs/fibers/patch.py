@@ -8,12 +8,13 @@ from icecream import ic
 
 
 class Patch(ABC):
+    __slots__ = ()
     @abstractmethod
     def to_fibers(self) -> list[Fiber]:
         ...
 
 
-@dataclass
+@dataclass(slots=True)
 class RectPatch(Patch):
     coordI: tuple       # Coordinates of the inferior left corner of the patch
     coordJ: tuple       # Coordinates of the superior right corner of the patch

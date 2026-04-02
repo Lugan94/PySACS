@@ -19,29 +19,29 @@ patch = RectPatch(coordI=(0,0),
                     color="red")
 
 fibras = patch.to_fibers()
-ic(fibras)
 
 
-import tracemalloc
-from pysacs.fibers import Fiber
 
-# 1. Iniciar el rastreo
-tracemalloc.start()
 
-# 2. Tomar foto inicial
-snapshot_inicial = tracemalloc.take_snapshot()
 
-hognestad = Hognestad(fpc=250, Ec=14000*250**0.5)
+# import tracemalloc
+# from pysacs.fibers import Fiber
 
-# --- AQUÍ CREAS TUS 25,000 FIBRAS ---
-mis_fibras = [Fiber((1,2), 20.0, model=hognestad, color="red") for _ in range(25000)]
+# # 1. Iniciar el rastreo
+# tracemalloc.start()
 
-# 3. Tomar foto final y comparar
-snapshot_final = tracemalloc.take_snapshot()
-estadisticas = snapshot_final.compare_to(snapshot_inicial, 'lineno')
+# # 2. Tomar foto inicial
+# snapshot_inicial = tracemalloc.take_snapshot()
 
-print("[ Comparativa de memoria ]")
-for stat in estadisticas[:5]: # Ver los 3 mayores consumidores
-    print(stat)
+# hognestad = Hognestad(fpc=250, Ec=14000*250**0.5)
 
-ic(hognestad.ecu)
+# # --- AQUÍ CREAS TUS 25,000 FIBRAS ---
+# mis_fibras = [Fiber((1,2), 20.0, model=hognestad, color="red") for _ in range(500)]
+
+# # 3. Tomar foto final y comparar
+# snapshot_final = tracemalloc.take_snapshot()
+# estadisticas = snapshot_final.compare_to(snapshot_inicial, 'lineno')
+
+# print("[ Comparativa de memoria ]")
+# for stat in estadisticas[:5]: # Ver los 3 mayores consumidores
+#     print(stat)
