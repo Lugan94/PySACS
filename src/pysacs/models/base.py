@@ -4,6 +4,7 @@ import numpy as np
 
 
 class MaterialModel(ABC):
+    __slots__ = ()
     @abstractmethod
     def stress(self, strain): ...
 

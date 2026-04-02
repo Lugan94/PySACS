@@ -4,8 +4,7 @@ from ..models.base import MaterialModel
 from ..fibers import Fiber
 import numpy as np
 
-def db(variable):
-    print(f"{variable=}")
+from icecream import ic
 
 
 class Patch(ABC):
@@ -32,15 +31,25 @@ class RectPatch(Patch):
         fiber_width = width/self.divY
         fiber_depth = depth/self.divZ
 
-        print(f"{width=}")
-        print(f"{depth=}")
-        print(f"{fiber_width=}")
-        db(fiber_depth)
+        fib_y_coords = np.linspace(self.coordI[0] + fiber_width/2,
+                                   self.coordJ[0] - fiber_width/2, 
+                                   self.divY)
+        fib_z_coords = np.linspace(self.coordI[1] + fiber_depth/2,
+                                   self.coordJ[1] - fiber_depth/2,
+                                   self.divZ)
 
-        # fib_y_coords = np.arange(self.coordI[0]+,)
+        fib_y_coords, fib_z_coords = np.meshgrid(fib_y_coords, fib_z_coords)
 
-        # db(fib_y_coords)
-
-        meshed_fibers = []
+        fiber_area = fiber_width * fiber_depth
+        meshed_fibers = [
+            Fiber(
+                coordinates=(y, z),
+                area=fiber_area,
+                model=self.model,
+                color=self.color
+                )
+            for y, z in zip(fib_y_coords.flatten(), fib_z_coords.flatten())
+            ]
+        
         return meshed_fibers
     

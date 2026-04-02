@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from ..models.base import MaterialModel
 
 
-@dataclass
+@dataclass(slots=True)
 class Fiber():
     coordinates: tuple  # Coordinates of the fiber
     area: float
