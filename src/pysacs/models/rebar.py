@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import numpy as np
 from .base import MaterialModel
 
-@dataclass
+@dataclass(slots=True)
 class BilinearEPP(MaterialModel):
     fy: float
     Es: float = 2e6
@@ -34,7 +34,7 @@ class BilinearEPP(MaterialModel):
         return stress
 
 
-@dataclass
+@dataclass(slots=True)
 class BilinearHardening(MaterialModel):
     fy: float
     fu: float
@@ -69,7 +69,7 @@ class BilinearHardening(MaterialModel):
         return stress
 
 
-@dataclass
+@dataclass(slots=True)
 class ManderRebar(MaterialModel):
     fy: float
     fu: float
