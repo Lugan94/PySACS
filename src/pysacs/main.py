@@ -2,6 +2,7 @@ import numpy as np
 from pysacs.models.rebar import BilinearEPP
 from pysacs.models.concrete import Hognestad
 from pysacs.fibers.patch import RectPatch
+from pysacs.fibers.layer import LayerFiber
 from pysacs.section import Section
 # from pysacs.mesh import mesh as m
 from icecream import ic
@@ -20,7 +21,18 @@ patch = RectPatch(coordI=(0,0),
 
 fibras = patch.to_fibers()
 
+layer = LayerFiber(coordI=(0,0),
+                   coordJ=(9,9),
+                   nFiber=4,
+                   area=2.0,
+                   model=Hognestad(fpc=250,
+                                    Ec=14000*250**0.5,
+                                    ),
+                    color="red")
 
+fibras2 = layer.to_fibers()
+ic(fibras2)
+ic(fibras2[0].coordinates[0])
 
 
 

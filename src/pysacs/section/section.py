@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from ..fibers import Fiber, Patch, Layer
 
 
-@dataclass
+@dataclass(slots=True)
 class Section:
     fibers: list[Fiber] = field(default_factory=list)
     patches: list[Patch] = field(default_factory=list)
