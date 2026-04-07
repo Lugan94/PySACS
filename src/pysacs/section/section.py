@@ -28,3 +28,17 @@ class Section:
             self.layers.extend(new_layers)
         else:
             self.layers.append(new_layers)
+
+
+    def mesh(self) -> list[Fiber]:
+        
+        all_fibers = list(self.fibers)
+
+        for patch in self.patches:
+            all_fibers.extend(patch.to_fibers())
+        
+        for layer in self.layers:
+            all_fibers.extend(layer.to_fibers())
+        
+
+        return all_fibers

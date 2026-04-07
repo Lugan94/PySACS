@@ -10,9 +10,8 @@ class Layer(ABC):
     __slots__ = ()
 
     @abstractmethod
-    def to_fibers():
+    def to_fibers(self) -> list[Fiber]:
         ...
-
 
 
 @dataclass(slots=True)
