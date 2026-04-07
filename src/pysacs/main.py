@@ -1,27 +1,49 @@
 import numpy as np
-from pysacs.models.rebar import BilinearEPP
+from pysacs.models.rebar import BilinearEPP, BilinearHardening
 from pysacs.models.concrete import Hognestad
+from pysacs.fibers.fiber import Fiber
 from pysacs.fibers.patch import RectPatch
+from pysacs.fibers.layer import LayerFiber
 from pysacs.section import Section
-# from pysacs.mesh import mesh as m
+from pysacs.mesh import mesh as m
 from icecream import ic
 
-# rebar = BilinearEPP(4200)
-# print(type(rebar))
+hardening = BilinearHardening(4200, 7200)
+hognestad = Hognestad(fpc=250, Ec=14000*250**0.5)
+rebar = BilinearEPP(4200)
+
+fiber = Fiber(coordinates=(10, 10),
+              area=5,
+              model=hardening,
+              color="blue")
 
 patch = RectPatch(coordI=(0,0),
                     coordJ=(20,20),
                     divY=5,
                     divZ=4,
-                    model=Hognestad(fpc=250,
+                    model=hognestad,
+                    color="gray")
+
+layer = LayerFiber(coordI=(0,0),
+                   coordJ=(9,9),
+                   nFiber=4,
+                   area=2.0,
+                   model=Hognestad(fpc=250,
                                     Ec=14000*250**0.5,
                                     ),
                     color="red")
 
-fibras = patch.to_fibers()
-
-
-
+section = Section()
+section.addFibers([fiber])
+section.addPatches([patch])
+section.addLayers([layer])
+print("antes")
+ic(section.fibers)
+print("mesh")
+all_fibers = m.mesh(section)
+ic(all_fibers)
+print("despues")
+ic(section.fibers)
 
 
 # import tracemalloc

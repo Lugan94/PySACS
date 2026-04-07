@@ -9,6 +9,7 @@ from icecream import ic
 
 class Patch(ABC):
     __slots__ = ()
+
     @abstractmethod
     def to_fibers(self) -> list[Fiber]:
         ...
@@ -22,7 +23,6 @@ class RectPatch(Patch):
     divZ: int           # Number of divisions along the local Z axis (depth)
     model: MaterialModel
     color: str = "lightgrey"
-
 
 
     def to_fibers(self) -> list[Fiber]:
@@ -42,15 +42,19 @@ class RectPatch(Patch):
         fib_y_coords, fib_z_coords = np.meshgrid(fib_y_coords, fib_z_coords)
 
         fiber_area = fiber_width * fiber_depth
+        
+        y_coords = fib_y_coords.ravel().tolist()
+        z_coords = fib_z_coords.ravel().tolist()
+
         meshed_fibers = [
             Fiber(
-                coordinates=(y, z),
+                coordinates=(y, z),  # Aquí y, z ya son floats nativos
                 area=fiber_area,
                 model=self.model,
                 color=self.color
-                )
-            for y, z in zip(fib_y_coords.flatten(), fib_z_coords.flatten())
-            ]
+            )
+            for y, z in zip(y_coords, z_coords)
+        ]
         
         return meshed_fibers
     
