@@ -22,7 +22,7 @@ class RectPatch(Patch):
     divY: int           # Number of divisions along the local Y axis (width)
     divZ: int           # Number of divisions along the local Z axis (depth)
     model: MaterialModel
-    color: str = "lightgrey"
+    color: str | None = "lightgrey"
 
 
     def to_fibers(self) -> list[Fiber]:

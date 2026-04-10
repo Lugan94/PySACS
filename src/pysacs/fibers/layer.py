@@ -21,7 +21,7 @@ class LayerFiber(Layer):
     nFiber: int         # Number of Fibers along the layer
     area: float         # Area of the Fibers along the layer
     model: MaterialModel
-    color: str = "red"
+    color: str | None = "darkred"
 
 
     def to_fibers(self) -> list[Fiber]:

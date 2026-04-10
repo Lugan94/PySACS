@@ -37,14 +37,9 @@ section = Section()
 section.addFibers([fiber])
 section.addPatches([patch])
 section.addLayers([layer])
-print("antes")
-ic(section.fibers)
-print("mesh")
-all_fibers = m.mesh(section)
-ic(all_fibers)
-print("despues")
-ic(section.fibers)
 
+all_fibers = section.mesh()
+ic(all_fibers)
 
 # import tracemalloc
 # from pysacs.fibers import Fiber
