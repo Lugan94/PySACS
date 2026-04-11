@@ -40,5 +40,4 @@ class Section:
         for layer in self.layers:
             all_fibers.extend(layer.to_fibers())
         
-
         return all_fibers
