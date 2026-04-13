@@ -38,10 +38,18 @@ section = Section()
 section.addPatches([patch])
 # section.addLayers([layer])
 
-analysis = MomentCurvatureAnalysis(section=section)
+ic(section.centroid)
+print(section.centroid)
+ic(section.area)
+print(section.area)
+
+analysis = MomentCurvatureAnalysis(section=section, angle=90)
 ic(analysis.coords)
 ic(analysis.areas)
-ic(analysis.analysis_coords)
+ic(analysis.models)
+
+ic(analysis.coords)
+
 
 
 
