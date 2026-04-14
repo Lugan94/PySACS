@@ -1,4 +1,5 @@
 from ..section import Section
+from .base import equilibrium
 from dataclasses import dataclass
 import numpy as np
 
