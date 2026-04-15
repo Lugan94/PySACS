@@ -50,9 +50,14 @@ ic(analysis.coords)
 ic(analysis.areas)
 ic(analysis.models)
 
-ic(analysis.coords)
+# Sacas el mínimo de la columna izquierda
+global_min = min(m.strain_limits[0] for m in analysis.models)
 
-print(f"el f''c del concreto según hognestad es: {hognestad.stress(-0.003)}")
+# Sacas el máximo de la columna derecha
+global_max = max(m.strain_limits[1] for m in analysis.models)
+ic(global_min)
+ic(global_max)
+
 
 
 # import tracemalloc
