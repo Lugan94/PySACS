@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass
 import numpy as np
 from .base import MaterialModel
@@ -32,6 +33,10 @@ class BilinearEPP(MaterialModel):
         stress = np.piecewise(es, condlist, funclist)
 
         return stress
+    
+    @property
+    def strain_limits(self) -> tuple[float, float]:
+        return (-self.esu, self.esu)
 
 
 @dataclass(slots=True)
@@ -67,6 +72,11 @@ class BilinearHardening(MaterialModel):
         stress = np.piecewise(es, condlist, funclist)
 
         return stress
+    
+
+    @property
+    def strain_limits(self) -> tuple[float, float]:
+        return (-self.esu, self.esu)
 
 
 @dataclass(slots=True)
@@ -107,3 +117,6 @@ class ManderRebar(MaterialModel):
         stress = np.piecewise(es, condlist, funclist)
         return stress
 
+    @property
+    def strain_limits(self) -> tuple[float, float]:
+        return (-self.esu, self.esu)

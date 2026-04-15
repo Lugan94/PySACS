@@ -49,7 +49,7 @@ class Section:
     
 
     @cached_property
-    def fiber_data(self):
+    def fiber_data(self) -> tuple[np.ndarray, np.ndarray, list]:
         fibers = self.mesh()
         coords = np.array([fiber.coordinates for fiber in fibers])
         areas =  np.array([fiber.area for fiber in fibers])

@@ -1,3 +1,4 @@
+from __future__ import annotations
 import numpy as np
 from pysacs.models.rebar import BilinearEPP, BilinearHardening
 from pysacs.models.concrete import Hognestad
@@ -50,7 +51,12 @@ ic(analysis.models)
 
 ic(analysis.coords)
 
+x = np.linspace(-0.004, 0.004, 100)
+y = hognestad.stress(x)
 
+import matplotlib.pyplot as plt
+plt.plot(x,y)
+plt.show()
 
 
 # import tracemalloc
