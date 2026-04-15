@@ -8,9 +8,10 @@ from pysacs.fibers.layer import LayerFiber
 from pysacs.section import Section
 from pysacs.analysis import MomentCurvatureAnalysis
 from icecream import ic
+import matplotlib.pyplot as plt
 
 hardening = BilinearHardening(4200, 7200)
-hognestad = Hognestad(fpc=250, Ec=14000*250**0.5)
+hognestad = Hognestad(fpc=250, Ec=14000*250**0.5, ecu=0.003)
 rebar = BilinearEPP(4200)
 
 # fiber = Fiber(coordinates=(10, 10),
@@ -51,12 +52,7 @@ ic(analysis.models)
 
 ic(analysis.coords)
 
-x = np.linspace(-0.004, 0.004, 100)
-y = hognestad.stress(x)
-
-import matplotlib.pyplot as plt
-plt.plot(x,y)
-plt.show()
+print(f"el f''c del concreto según hognestad es: {hognestad.stress(-0.003)}")
 
 
 # import tracemalloc
