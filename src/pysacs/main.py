@@ -55,7 +55,7 @@ analysis = MomentCurvatureAnalysis(section=section)
 # ic(analysis.areas)
 # ic(analysis.models)
 
-resultados = analysis.run(phi_max=0.004, n_steps=100, axial_load=0, angle=0)
+resultados = analysis.run(phi_max=0.002, n_steps=100, axial_load=0, angle=0)
 ic(resultados)
 
 plt.plot(resultados.phi, resultados.moment)
