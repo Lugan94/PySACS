@@ -1,49 +1,65 @@
+from __future__ import annotations
 import numpy as np
-from pysacs.models.rebar import BilinearEPP, BilinearHardening
-from pysacs.models.concrete import Hognestad
+from pysacs.models.rebar import BilinearEPP, BilinearHardening, ManderRebar
+from pysacs.models.concrete import Hognestad, ManderConcrete
 from pysacs.fibers.fiber import Fiber
 from pysacs.fibers.patch import RectPatch
 from pysacs.fibers.layer import LayerFiber
 from pysacs.section import Section
-from pysacs.mesh import mesh as m
+from pysacs.analysis import MomentCurvatureAnalysis
 from icecream import ic
+import matplotlib.pyplot as plt
 
-hardening = BilinearHardening(4200, 7200)
-hognestad = Hognestad(fpc=250, Ec=14000*250**0.5)
+hardening = BilinearHardening(4500, 7300)
+hognestad = Hognestad(fpc=250, Ec=14000*250**0.5, ecu=0.003)
 rebar = BilinearEPP(4200)
+mander = ManderConcrete(fpcc=418.6, ecc=0.004881, Ec=252389, E_sec=85443, ecu=0.0212, ft=36)
+rebarmander = ManderRebar(4500, 7300)
 
-fiber = Fiber(coordinates=(10, 10),
-              area=5,
-              model=hardening,
-              color="blue")
+# fiber = Fiber(coordinates=(10, 10),
+#               area=5,
+#               model=hardening,
+#               color="blue")
 
-patch = RectPatch(coordI=(0,0),
-                    coordJ=(20,20),
-                    divY=5,
-                    divZ=4,
-                    model=hognestad,
+patch = RectPatch(coordI=(-25,-35),
+                    coordJ=(25,35),
+                    divY=10,
+                    divZ=14,
+                    model=mander,
                     color="gray")
 
-layer = LayerFiber(coordI=(0,0),
-                   coordJ=(9,9),
+layer_inf = LayerFiber(coordI=(-20,-31),
+                   coordJ=(20,-31),
                    nFiber=4,
-                   area=2.0,
-                   model=Hognestad(fpc=250,
-                                    Ec=14000*250**0.5,
-                                    ),
+                   area=2.85,
+                   model=rebarmander,
+                    color="red")
+
+layer_sup = LayerFiber(coordI=(-20,31),
+                   coordJ=(20,31),
+                   nFiber=4,
+                   area=2.85,
+                   model=rebarmander,
                     color="red")
 
 section = Section()
-section.addFibers([fiber])
+
 section.addPatches([patch])
-section.addLayers([layer])
-print("antes")
-ic(section.fibers)
-print("mesh")
-all_fibers = m.mesh(section)
-ic(all_fibers)
-print("despues")
-ic(section.fibers)
+section.addLayers([layer_inf, layer_sup])
+
+ic(section.centroid)
+ic(section.area)
+
+analysis = MomentCurvatureAnalysis(section=section)
+# ic(analysis.coords)
+# ic(analysis.areas)
+# ic(analysis.models)
+
+resultados = analysis.run(phi_max=0.002, n_steps=100, axial_load=0, angle=0)
+ic(resultados)
+
+plt.plot(resultados.phi, resultados.moment)
+plt.show()
 
 
 # import tracemalloc

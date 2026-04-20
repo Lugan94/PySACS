@@ -7,5 +7,5 @@ class Fiber():
     coordinates: tuple[float, float]  # Coordinates of the fiber
     area: float
     model: MaterialModel
-    color: str = "red"
+    color: str | None = "lightblue"
 

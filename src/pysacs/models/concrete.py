@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass
 import numpy as np
 from .base import MaterialModel
@@ -20,7 +21,6 @@ class Hognestad(MaterialModel):
         ec = np.asarray(strain)
 
         et = ft/Ec
-        print(et)
 
         condlist = [
             ec < ecu,
@@ -41,6 +41,11 @@ class Hognestad(MaterialModel):
         stress = np.piecewise(ec,condlist,funclist)
         return stress
     
+
+    @property
+    def strain_limits(self) -> tuple[float, float]:
+        return (-self.ecu, self.ft/self.Ec)
+    
 @dataclass(slots=True)
 class ManderConcrete(MaterialModel):
     fpcc: float
@@ -56,9 +61,10 @@ class ManderConcrete(MaterialModel):
         ecu = -self.ecu
         Ec = self.Ec
         ft = self.ft
+        E_sec = self.E_sec
         ec = np.asarray(strain)
 
-        r = Ec / (Ec - self.E_sec)
+        r = Ec / (Ec - E_sec)
         et = ft / Ec
 
         def mander_curve(ec):
@@ -83,3 +89,6 @@ class ManderConcrete(MaterialModel):
         return stress
 
 
+    @property
+    def strain_limits(self) -> tuple[float, float]:
+        return (-self.ecu, self.ft/self.Ec)
